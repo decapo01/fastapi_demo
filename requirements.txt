@@ -2,6 +2,7 @@ annotated-doc==0.0.4
 annotated-types==0.7.0
 anyio==4.12.1
 asyncpg==0.31.0
+basedpyright==1.37.4
 black==26.1.0
 certifi==2026.1.4
 click==8.3.1
@@ -23,6 +24,8 @@ markdown-it-py==4.0.0
 MarkupSafe==3.0.3
 mdurl==0.1.2
 mypy_extensions==1.1.0
+nodeenv==1.10.0
+nodejs-wheel-binaries==24.13.0
 packaging==26.0
 pathspec==1.0.4
 platformdirs==4.5.1
@@ -31,6 +34,7 @@ pydantic-extra-types==2.11.0
 pydantic-settings==2.12.0
 pydantic_core==2.41.5
 Pygments==2.19.2
+pyright==1.1.408
 python-dotenv==1.2.1
 python-multipart==0.0.22
 pytokens==0.4.1
