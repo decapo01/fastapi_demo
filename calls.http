@@ -1,0 +1,8 @@
+
+### Get all todos
+
+GET http://localhost:8000/todos
+
+
+### Get Single Todo
+GET http://localhost:8000/todos/ba6921d6-fbf6-47a4-b27b-822f4881356f
