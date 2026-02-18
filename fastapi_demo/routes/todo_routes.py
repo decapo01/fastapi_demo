@@ -23,6 +23,13 @@ def todo_model_from_todo(todo: Todo) -> TodoModel:
         completed_date=todo.completed_date,
     )
 
+def todo_db_model_from_todo_model(todo_model: TodoModel) -> Todo:
+    return Todo(
+        id=todo_model.id,
+        title=todo_model.title,
+        completed_date=todo_model.completed_date,
+    )
+
 
 @router.get("/{id}")
 async def get_todo(id: UUID, db: AsyncSession = Depends(get_db_session)) -> Optional[TodoModel]:
@@ -46,6 +53,40 @@ async def get_todos(db: AsyncSession = Depends(get_db_session)) -> list[TodoMode
         todos: Sequence[Todo] = result.scalars().all()
         response = [todo_model_from_todo(t) for t in todos]
         return response
+    except Exception as e:
+        logger.error(e)
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+
+@router.post("")
+async def post_todos(todo_model: TodoModel, db: AsyncSession = Depends(get_db_session)) -> TodoModel:
+    try:
+        logger.info("Creating new todo")
+        todo_db_model = todo_db_model_from_todo_model(todo_model)
+        db.add(todo_db_model)
+        await db.commit()
+        await db.refresh(todo_db_model)
+        return todo_model
+    except Exception as e:
+        logger.error(e)
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+
+@router.post("/{id}")
+async def post_update_todo(id: UUID, todo_model: TodoModel, db: AsyncSession = Depends(get_db_session)) -> TodoModel:
+    try:
+        logger.info(f"Updating todo with id: {id}")
+        query = select(Todo).filter(id == id)
+        result = await db.execute(query)
+        response: Todo | None = result.scalar_one_or_none()
+        if response is None:
+            msg = f"todo with id: {id} not found"
+            logger.error(msg)
+            raise HTTPException(status_code=404, detail=msg)
+        response.title = todo_model.title
+        response.completed_date = todo_model.completed_date
+        await db.commit()
+        return todo_model
     except Exception as e:
         logger.error(e)
         raise HTTPException(status_code=500, detail="Internal server error")
