@@ -16,6 +16,6 @@ class Todo(Base):
 
     id: Mapped[UUID] = mapped_column(PgUUID(as_uuid=True), primary_key=True)
     title: Mapped[str] = mapped_column(String(255))
-    completed_date: Mapped[datetime | None] = mapped_column(DateTime, default=None)
-    created_on: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
-    updated_on: Mapped[datetime] = mapped_column(DateTime, default=utc_now, onupdate=utc_now)
+    completed_date: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), default=None)
+    created_on: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
+    updated_on: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now, onupdate=utc_now)

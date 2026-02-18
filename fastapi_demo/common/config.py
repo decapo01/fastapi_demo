@@ -36,7 +36,7 @@ def expand_env_vars(text: str, strict: bool = True) -> str:
     return _ENV_VAR_PATTERN.sub(replacer, text)
 
 
-def load_config(optional_path: str | Path = "../configs/local.yml") -> Config:
+def load_config(optional_path: str | Path = "./configs/local.yml") -> Config:
     path = os.getenv("CONFIG_PATH")
     if path is None:
         logger.warning("CONFIG_PATH environment variable is not set, using default path: %s", optional_path)

@@ -4,7 +4,12 @@ from fastapi import FastAPI
 
 from fastapi_demo.routes import todo_routes
 
-logger = logging.getLogger("fastapi_demo")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s [%(name)s] %(message)s",
+)
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 

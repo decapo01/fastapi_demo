@@ -76,7 +76,7 @@ async def post_todos(todo_model: TodoModel, db: AsyncSession = Depends(get_db_se
 async def post_update_todo(id: UUID, todo_model: TodoModel, db: AsyncSession = Depends(get_db_session)) -> TodoModel:
     try:
         logger.info(f"Updating todo with id: {id}")
-        query = select(Todo).filter(id == id)
+        query = select(Todo).filter(Todo.id == id)
         result = await db.execute(query)
         response: Todo | None = result.scalar_one_or_none()
         if response is None:
